@@ -53,12 +53,8 @@ test('response', function (t) {
       t.deepEqual(head.version, { major: 1, minor: 1 })
       t.equal(head.statusCode, 200)
       t.equal(head.statusMessage, 'OK')
-      t.deepEqual(head.headers, {
-        connection: 'keep-alive',
-        'content-length': '11',
-        date: head.headers.date,
-        'x-foo': 'bar'
-      })
+      t.equal(head.headers['connection'], 'keep-alive')
+      t.equal(head.headers['x-foo'], 'bar')
 
       socket.on('data', function (chunk) {
         t.equal(chunk.toString(), 'Hello World')
