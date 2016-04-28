@@ -1,6 +1,6 @@
 {
   "name": "consume-http-header",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Consume an HTTP request or response stream until all headers have been read",
   "main": "index.js",
   "dependencies": {
@@ -33,5 +33,9 @@
   "bugs": {
     "url": "https://github.com/watson/consume-http-header/issues"
   },
-  "homepage": "https://github.com/watson/consume-http-header#readme"
+  "homepage": "https://github.com/watson/consume-http-header#readme",
+  "coordinates": [
+    55.6364184,
+    12.6466904
+  ]
 }
