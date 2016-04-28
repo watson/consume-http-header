@@ -52,9 +52,17 @@ The module exposes a single function which takes 3 arguments:
   `stream` either ends before all the headers have been read or if the
   `stream` emits an error
 
+#### Consuming the HTTP body
+
 When the `callback` is called, continue consuming the `stream` to get
-the body of the request. But note that you have to be aware of the total
-body size your self.
+the body of the request. But be aware of the following gotchas:
+
+- If the `stream` is reused for multiple requests and responses, be
+  aware of when the body ends
+- If `req.headers['transfer-encoding'] === 'chunked'`, be aware that the
+  body is using Chunked Transfer Coding and you have to decode it
+  accordingly. Decoding Chunked Transfer Coding is outside the scope of
+  this module
 
 ## License
 
