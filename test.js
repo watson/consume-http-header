@@ -6,7 +6,7 @@ var http = require('http')
 var consumeHead = require('./')
 
 test('request', function (t) {
-  t.plan(7)
+  t.plan(8)
 
   var server = net.createServer(function (socket) {
     consumeHead(socket, function (err, head) {
