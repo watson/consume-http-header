@@ -1,0 +1,37 @@
+{
+  "name": "consume-http-header",
+  "version": "0.0.0",
+  "description": "Consume an HTTP request or response stream until all headers have been read",
+  "main": "index.js",
+  "dependencies": {
+    "consume-until": "^1.0.0",
+    "http-headers": "^3.0.1"
+  },
+  "devDependencies": {
+    "tape": "^4.5.1",
+    "standard": "^6.0.8"
+  },
+  "scripts": {
+    "test": "standard && tape test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/watson/consume-http-header.git"
+  },
+  "keywords": [
+    "http",
+    "header",
+    "headers",
+    "stream",
+    "socket",
+    "tcp",
+    "parse",
+    "parser"
+  ],
+  "author": "Thomas Watson Steen <w@tson.dk> (https://twitter.com/wa7son)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/watson/consume-http-header/issues"
+  },
+  "homepage": "https://github.com/watson/consume-http-header#readme"
+}
