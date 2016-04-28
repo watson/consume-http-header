@@ -6,7 +6,7 @@ var http = require('http')
 var consumeHead = require('./')
 
 test('request', function (t) {
-  t.plan(8)
+  t.plan(7)
 
   var server = net.createServer(function (socket) {
     consumeHead(socket, function (err, head) {
@@ -14,8 +14,20 @@ test('request', function (t) {
       t.equal(head.method, 'GET')
       t.equal(head.url, '/')
       t.deepEqual(head.version, { major: 1, minor: 1 })
-      t.equal(head.headers['host'], 'localhost:' + server.address().port)
-      t.equal(head.headers['x-foo'], 'bar')
+
+      if (head.headers['connection'] === 'close') {
+        t.deepEqual(head.headers, {
+          connection: 'close',
+          host: 'localhost:' + server.address().port,
+          'x-foo': 'bar'
+        })
+      } else {
+        t.deepEqual(head.headers, {
+          connection: 'keep-alive',
+          host: 'localhost:' + server.address().port,
+          'x-foo': 'bar'
+        })
+      }
 
       socket.on('data', function (chunk) {
         t.equal(chunk.toString(), 'Hello World')
@@ -50,11 +62,31 @@ test('response', function (t) {
       t.deepEqual(head.version, { major: 1, minor: 1 })
       t.equal(head.statusCode, 200)
       t.equal(head.statusMessage, 'OK')
-      t.equal(head.headers['connection'], 'keep-alive')
-      t.equal(head.headers['x-foo'], 'bar')
+
+      var chunked = head.headers['transfer-encoding'] === 'chunked'
+
+      if (chunked) {
+        t.deepEqual(head.headers, {
+          connection: 'keep-alive',
+          date: head.headers.date,
+          'transfer-encoding': 'chunked',
+          'x-foo': 'bar'
+        })
+      } else {
+        t.deepEqual(head.headers, {
+          connection: 'keep-alive',
+          'content-length': '11',
+          date: head.headers.date,
+          'x-foo': 'bar'
+        })
+      }
 
       socket.on('data', function (chunk) {
-        t.equal(chunk.toString(), 'Hello World')
+        if (chunked) {
+          t.equal(chunk.toString(), 'b\r\nHello World\r\n0\r\n\r\n')
+        } else {
+          t.equal(chunk.toString(), 'Hello World')
+        }
         socket.end()
         server.close()
         t.end()
