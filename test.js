@@ -14,11 +14,8 @@ test('request', function (t) {
       t.equal(head.method, 'GET')
       t.equal(head.url, '/')
       t.deepEqual(head.version, { major: 1, minor: 1 })
-      t.deepEqual(head.headers, {
-        connection: 'close',
-        host: 'localhost:' + server.address().port,
-        'x-foo': 'bar'
-      })
+      t.equal(head.headers['host'], 'localhost:' + server.address().port)
+      t.equal(head.headers['x-foo'], 'bar')
 
       socket.on('data', function (chunk) {
         t.equal(chunk.toString(), 'Hello World')
