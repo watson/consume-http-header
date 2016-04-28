@@ -41,7 +41,7 @@ consume(socket, function (err, req) {
 
 ## API
 
-### `consumeUntil(stream, callback)`
+### `consume(stream, callback)`
 
 The module exposes a single function which takes 3 arguments:
 
